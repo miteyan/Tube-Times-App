@@ -12,7 +12,7 @@ import java.util.TimeZone;
  */
 public class Tube {
 
-    public Tube (String line) {
+    public Tube (String stationName) {
         this.stationName = stationName;
         System.out.println();
         System.out.println("New Tube added: "+line);
