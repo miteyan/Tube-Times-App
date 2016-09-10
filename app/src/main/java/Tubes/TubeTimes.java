@@ -34,37 +34,6 @@ public class TubeTimes {
         }
     }
 
-    private String station;
-
-    public TubeTimes(String station) {
-        this.station = "hillingdon";
-
-    }
-
-
-    public static List<String> save(String URL) throws IOException {
-        BufferedReader input = null;
-
-        String all="";
-
-        try{
-            java.net.URL url = new URL(URL);
-            input = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            all=input.readLine();
-
-        } finally {
-            if (input != null) {
-                input.close();
-            }
-        }
-
-
-        List<String> strings = Arrays.asList(all.split("\\s*,\\s*"));
-
-        return strings;
-    }
-
     public static List<Tube> getTrains(List<String> lines) throws ParseException {
         int size = lines.size();
 
@@ -76,10 +45,10 @@ public class TubeTimes {
         for (int i = 0 ; i < size ; i++ ) {
             line = lines.get(i);
 
-
             //set station name
             if (line.contains("stationName")) {
                 String stationName = regex(line, "stationName");
+                //add new tube if arriving
                 tubes.add(new Tube(stationName));
             }
 
@@ -109,8 +78,7 @@ public class TubeTimes {
         }
         return tubes;
     }
-
-
+    //Use regular experessions to extract information from the API lines.
     public static String regex(String line, String arg) {
         if (line.contains(arg)) {
             Pattern p = Pattern.compile("\"(.*?)\":\"(.*?)\"");//pattern to extract second x in the form of ' "x":"x" '
@@ -142,6 +110,26 @@ public class TubeTimes {
         for (int i = 0; i <x.size() ; i++) {
             System.out.println(x.get(i));
         }
+    }
+    /*/
+    Saves APIs web page as a string
+     */
+    public static List<String> save(String URL) throws IOException {
+        BufferedReader input = null;
+        String all="";
+        try{
+            java.net.URL url = new URL(URL);
+            input = new BufferedReader(new InputStreamReader(url.openStream()));
+
+            all=input.readLine();
+
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+        }
+        List<String> strings = Arrays.asList(all.split("\\s*,\\s*"));
+        return strings;
     }
 
 }

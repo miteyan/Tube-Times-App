@@ -97,7 +97,7 @@ public class Tube {
         getTimeTo();
     }
 
-    public void getTimeTo(){
+    public String getTimeTo(){
         Date now = new Date();
         date.setMonth(now.getMonth());
         date.setYear(now.getYear());
@@ -107,7 +107,9 @@ public class Tube {
         long min = diffSec / 60;
         long sec = diffSec % 60;
         timeTo = min+ ":"+sec;
-        System.out.println("The difference is "+min+" minutes and "+sec+" seconds.");
+        String timeLeft="Arriving in "+min+" minutes and "+sec+" seconds.";
+        System.out.println(timeLeft);
+        return timeLeft;
     }
 
     @Override
