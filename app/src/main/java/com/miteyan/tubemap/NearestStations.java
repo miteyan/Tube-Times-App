@@ -1,4 +1,4 @@
-package Tubes;
+package com.miteyan.tubemap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,11 +18,11 @@ public class NearestStations {
             "51.548584" +
             "&lon=" +
             "-0.448603" +
-            "&page=1&rpp=4";
+            "&page=1&rpp=8";
 
     public NearestStations(LatLng location) throws IOException {//initialise API link to get the stations then parse
         link ="http://transportapi.com/v3/uk/tube/stations/near.json?app_id=03bf8009&app_key=d9307fd91b0247c607e098d5effedc97&lat=" +
-                location.getLat() + "&lon=" + location.getLng() + "&page=1&rpp=4";
+                location.getLat() + "&lon=" + location.getLng() + "&page=1&rpp=8";
     }
 
 
@@ -93,6 +93,20 @@ public class NearestStations {
         System.out.println("Getting stations");
         return crawl(save(link));
     }
+    public static String[] getStationsString() throws IOException {
+//        print(save(link));
+        System.out.println("Getting stations");
+
+        List<Station> stations = crawl(save(link));
+        int size= stations.size();
+        String[] stationsName = new String[size];
+        for (int i = 0; i<size; i++) {
+            stationsName[i] = stations.get(i).getName();
+            System.out.println(stationsName[i]);
+        }
+        return stationsName;
+    }
+
 
     public static String regex(String line, String arg) {
         if (line.contains(arg)) {
@@ -111,7 +125,7 @@ public class NearestStations {
 //        crawl(lines);
 
         NearestStations nearestStations = new NearestStations(new LatLng(51.531172, -0.129047));
-        nearestStations.getStations();
+        nearestStations.getStationsString();
     }
     public static void print(List<String> x) {
         for (int i = 0; i <x.size() ; i++) {

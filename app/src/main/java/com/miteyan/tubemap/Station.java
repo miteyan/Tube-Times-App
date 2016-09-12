@@ -1,4 +1,4 @@
-package Tubes;
+package com.miteyan.tubemap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,15 @@ public class Station {
 
     public List<String> getTubes() {
         return linesAtStation;
+    }
+
+    public String getTubeLines() {
+        int numLines = linesAtStation.size();
+        String ret = "";
+        for (int i = 0 ; i<numLines; i++) {
+            ret= ret+linesAtStation.get(i) + " ";
+        }
+        return ret;
     }
 
     public void setTubeLines(List<String> tubes) {

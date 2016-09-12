@@ -1,4 +1,4 @@
-package Tubes;
+package com.miteyan.tubemap;
 
 import java.io.BufferedReader;
 import java.io.IOException;

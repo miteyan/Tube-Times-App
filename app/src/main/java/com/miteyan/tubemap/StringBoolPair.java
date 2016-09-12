@@ -1,4 +1,4 @@
-package Tubes;
+package com.miteyan.tubemap;
 
 public class StringBoolPair {
 

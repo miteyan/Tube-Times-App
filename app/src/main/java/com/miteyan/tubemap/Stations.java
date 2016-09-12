@@ -11,13 +11,15 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+public class Stations extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
 
     LocationManager locationManager;
     double longitudeBest, latitudeBest;
@@ -30,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //RECYCLER VIEW
+        recyclerView = (RecyclerView) findViewById(R.id.stationsHolder);
+
         setContentView(R.layout.activity_main);
         //REGISTER TEXT VIEWS
         longitudeValueBest = (TextView) findViewById(R.id.longitudeValueBest);
@@ -74,9 +80,7 @@ public class MainActivity extends AppCompatActivity {
         return isLocationEnabled();
     }
 
-
     public void toggleGPSUpdates(View view) {
-
         if (!isLocationEnabled()) {
             return;
         }
@@ -92,20 +96,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleNetworkUpdates(View view) {
-        Intent intent = new Intent(this, TrainActivity.class);
-        startActivity(intent);
-//        if (!isLocationEnabled()) {
-//            return;
-//        }
-//        Button button = (Button) view;
-//
-//        if (button.getText().equals(getResources().getString(R.string.pause))) {
-//            locationManager.removeUpdates(locationListenerNetwork);
-//            button.setText(R.string.resume);
-//        } else {
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 15, locationListenerNetwork);
-//            button.setText(R.string.pause);
-//        }
+        if (!isLocationEnabled()) {
+            return;
+        }
+        Button button = (Button) view;
+
+        if (button.getText().equals(getResources().getString(R.string.pause))) {
+            locationManager.removeUpdates(locationListenerNetwork);
+            button.setText(R.string.resume);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 15, locationListenerNetwork);
+            button.setText(R.string.pause);
+        }
     }
 
     public void toggleBestUpdates(View view) {
@@ -142,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     longitudeValueGPS.setText(longitudeGPS + "");
                     latitudeValueGPS.setText(latitudeGPS + "");
-                    Toast.makeText(MainActivity.this, "GPS Provider update", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -170,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     longitudeValueNetwork.setText(longitudeNetwork + "");
                     latitudeValueNetwork.setText(latitudeGPS + "");
-                    Toast.makeText(MainActivity.this, "Network Provider update", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -198,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     longitudeValueBest.setText(longitudeGPS + "");
                     latitudeValueBest.setText(latitudeGPS + "");
-                    Toast.makeText(MainActivity.this, "Best Provider update", Toast.LENGTH_SHORT).show();
                 }
             });
         }
