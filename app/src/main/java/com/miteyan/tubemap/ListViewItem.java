@@ -5,7 +5,12 @@ import java.util.ArrayList;
 /**
  * Created by miteyan on 11/09/2016.
  */
-public class stationCardInfo {
+public class ListViewItem{
+    public ListViewItem(String stationName, String tubeLines, String distance) {
+        this.stationName = stationName;
+        this.tubeLines = tubeLines;
+        this.distance = distance;
+    }
     public String getStationName() {
         return stationName;
     }
@@ -26,11 +31,7 @@ public class stationCardInfo {
         return distance;
     }
 
-    public stationCardInfo(String stationName, String tubeLines, String distance) {
-        this.stationName = stationName;
-        this.tubeLines = tubeLines;
-        this.distance = distance;
-    }
+
 
     public void setDistance(String distance) {
         this.distance = distance;
@@ -39,5 +40,5 @@ public class stationCardInfo {
     private String stationName;
     private String tubeLines;
     private String distance;
-
 }
+

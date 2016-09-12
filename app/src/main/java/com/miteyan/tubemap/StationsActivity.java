@@ -1,8 +1,10 @@
 package com.miteyan.tubemap;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -10,19 +12,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class StationsActivity extends AppCompatActivity {
 
-    LatLng location = new LatLng(51.5333, 0.1322);
     List<Station> listStations = Collections.EMPTY_LIST;
+    List<ListViewItem> listStationsItems = Collections.EMPTY_LIST;
     Button button;
     private String[] listStationsName;
 
-    private void setList(List<Station> list){
+    private void setListStation(List<Station> list){
         this.listStations=list;
+        System.out.println("List set: " + list.size());
+    }
+    private void setList(List<ListViewItem> list){
+        this.listStationsItems=list;
         System.out.println("List set: " + list.size());
     }
     private void setList(String[] list){
@@ -39,9 +46,14 @@ public class StationsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    LatLng location = new LatLng(51.548016, -0.448190);
+
                     NearestStations ns = new NearestStations(location);
-                    String[] stationsList = ns.getStationsString();
+                    List<ListViewItem> stationsList = ns.getStationsListItems();
                     setList(stationsList);
+
+
+                    //return list view items
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -50,15 +62,36 @@ public class StationsActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
 
         button = (Button)findViewById(R.id.BUTTON);
+        register();
     }
 
     public void populate(View view) {
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.listitem,listStationsName);
-
+        button.setVisibility(View.INVISIBLE);
         ListView listView = (ListView) findViewById(R.id.listView);
-        assert listView != null;
-        listView.setAdapter(arrayAdapter);
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.listitem,listStationsName);
+//        assert listView != null;
+//        listView.setAdapter(arrayAdapter);
+
+        //Custom
+        CustomListAdapter customListAdapter = new CustomListAdapter(this, listStationsItems);
+        listView.setAdapter(customListAdapter);
+
     }
+
+
+    private void register() {
+        final ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(StationsActivity.this,i+"",Toast.LENGTH_LONG ).show();
+
+                Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
 }

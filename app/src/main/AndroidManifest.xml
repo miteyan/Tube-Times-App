@@ -48,10 +48,10 @@
         </activity>
         <activity android:name=".Stations" />
         <activity android:name=".TrainActivity" />
-        <activity android:name=".NearestStationActivity" />
-        <activity android:name=".Train" />
-        <activity android:name=".StationsActivity">
-        </activity>
+        <!-- <activity android:name=".NearestStationActivity" /> -->
+        <!-- <activity android:name=".Train" /> -->
+        <activity android:name=".StationsActivity"></activity>
+        <activity android:name=".TubeActivity"></activity>
     </application>
 
 </manifest>

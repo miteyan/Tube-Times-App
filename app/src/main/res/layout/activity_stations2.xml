@@ -7,21 +7,27 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.miteyan.tubemap.StationsActivity">
+    tools:context="com.miteyan.tubemap.StationsActivity"
+    android:background="@color/cardview_shadow_start_color">
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:paddingTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GET STATIONS"
         android:id="@+id/BUTTON"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="populate"/>
+        android:onClick="populate"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/listView"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/cardview_light_background"/>
 </RelativeLayout>

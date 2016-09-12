@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,6 +95,7 @@ public class NearestStations {
         System.out.println("Getting stations");
         return crawl(save(link));
     }
+
     public static String[] getStationsString() throws IOException {
 //        print(save(link));
         System.out.println("Getting stations");
@@ -107,6 +110,19 @@ public class NearestStations {
         return stationsName;
     }
 
+    public static List<ListViewItem> getStationsListItems() throws IOException {
+//        print(save(link));
+        System.out.println("Getting stations");
+        List<Station> stationsList =  crawl(save(link));
+        int size= stationsList.size();
+        ArrayList<ListViewItem> stationsListItems = new ArrayList<ListViewItem>(size);
+        for (int i = 0; i<size; i++) {
+            Station current = stationsList.get(i);
+            ListViewItem newItem = new ListViewItem(current.getName(),current.getTubeLines(),current.getDistance());
+            stationsListItems.add(i,newItem);
+        }
+        return stationsListItems;
+    }
 
     public static String regex(String line, String arg) {
         if (line.contains(arg)) {
