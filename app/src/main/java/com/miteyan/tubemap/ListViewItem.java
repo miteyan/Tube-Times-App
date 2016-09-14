@@ -8,7 +8,6 @@ import java.util.List;
 public class ListViewItem{
     private String stationName;
     private String stationID;
-    private String tubeLines;
     private List<String> tubeLinesList;
     private String distance;
 

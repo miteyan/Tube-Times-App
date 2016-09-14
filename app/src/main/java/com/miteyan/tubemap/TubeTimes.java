@@ -28,11 +28,11 @@ public class TubeTimes {
         this.stationID=stationID;
     }
 
-    public static List<Tube> getTrains(List<String> lines) throws ParseException {
+    public static ArrayList<Tube> getTrains(List<String> lines) throws ParseException {
         int size = lines.size();
 
 
-        List<Tube> tubes = new ArrayList<Tube>();
+        ArrayList<Tube> tubes = new ArrayList<Tube>();
 
         String line = "";
         int index = 0;
@@ -84,7 +84,7 @@ public class TubeTimes {
         }
     }
 
-    public List<Tube> getTimes() throws IOException, ParseException {
+    public ArrayList<Tube> getTimes() throws IOException, ParseException {
         return getTrains(save(link));
     }
 
@@ -127,10 +127,9 @@ public class TubeTimes {
     }
 
 
-    public List<Tube> getTubeTimes() throws IOException, ParseException {
-        List<Tube> allTubes = Collections.EMPTY_LIST;
-        List<Tube> tmpTubes = Collections.EMPTY_LIST;
-
+    public ArrayList<Tube> getTubeTimes() throws IOException, ParseException {
+        ArrayList<Tube> allTubes = new ArrayList<Tube>();
+        ArrayList<Tube> tmpTubes;
         for (int i = 0; i < allTubeLines.size(); i++) {
             System.out.println("GETTING TUBES: "+ allTubeLines.get(i));
             link = "https://api.tfl.gov.uk/Line/%20" +
@@ -145,7 +144,7 @@ public class TubeTimes {
                 allTubes.add(tmpTubes.get(j));
             }
         }
-        return allTubes;
+        return (ArrayList<Tube>) allTubes;
     }
 
 }
