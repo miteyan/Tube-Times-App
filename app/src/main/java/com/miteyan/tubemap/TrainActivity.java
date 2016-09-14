@@ -90,8 +90,8 @@ public class TrainActivity extends AppCompatActivity {
                     longitudeValueGPS.setText(longitudeGPS + "");
                     latitudeValueGPS.setText(latitudeGPS + "");
                     Intent intent = new Intent(TrainActivity.this, StationsActivity.class);
-                    intent.putExtra("lat",51.540091);
-                    intent.putExtra("long", -0.180570);
+                    intent.putExtra("lat",latitudeGPS);
+                    intent.putExtra("long", longitudeGPS);
 //            intent.putExtra("long",longitudeGPS);
                     if (longitudeGPS!=0 && latitudeGPS!=0)
                     {startActivity(intent);}

@@ -27,7 +27,7 @@
         android:text="Arrival time"
         android:id="@+id/tArrivalTime"
         android:layout_gravity="right"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tTimeTo"
         android:layout_alignParentEnd="true" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:text="Destination"
         android:id="@+id/tDestination"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/tArrivalTime"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
     <TextView

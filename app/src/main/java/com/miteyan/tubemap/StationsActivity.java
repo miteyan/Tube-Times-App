@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,9 +40,7 @@ public class StationsActivity extends AppCompatActivity {
                     final double Lat = bundle.getDouble("lat");
                     final double Long = bundle.getDouble("long");
                     LatLng location = new LatLng(Lat, Long);
-
 //                    LatLng location = new LatLng(51.531172, -0.129047);
-
                     NearestStations ns = new NearestStations(location);
                     List<ListViewItem> stationsList = ns.getStationsList();
                     setList(stationsList);
@@ -67,7 +66,6 @@ public class StationsActivity extends AppCompatActivity {
 //        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.listitem,listStationsName);
 //        assert listView != null;
 //        listView.setAdapter(arrayAdapter);
-
                 //Custom
                 CustomListAdapter customListAdapter = new CustomListAdapter(StationsActivity.this, listStationsItems);
                 listView.setAdapter(customListAdapter);
@@ -102,10 +100,10 @@ public class StationsActivity extends AppCompatActivity {
                     public void run() {
 //                        String stationID = StationID(i);
                         List<String> tubes = getTubeLineList(i);
+                        print(tubes);
                         String stationID = getStationID(i);
                         TubeTimes times = null;
                         try {
-                            System.out.println(tubes+stationID+ " I INIONoindcaoinanon");
                             times = new TubeTimes(tubes, stationID);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -113,8 +111,9 @@ public class StationsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         try {
-                            List<Tube> list =times.getTimes();
-                            String s = "String";
+                            List<Tube> list = times.getTubeTimes();
+                            Log.v("Tag",""+list.size());
+
                             Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putParcelableArrayList("Tubes", (ArrayList<? extends Parcelable>) list);
@@ -126,13 +125,15 @@ public class StationsActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-
                 }.start();
             }
-
         });
     }
-
+    public static void print(List<String> a) {
+        for (int i =0 ; i<a.size(); i++) {
+            System.out.println(a.get(i));
+        }
+    }
     private void setList(List<ListViewItem> list){
         this.listStationsItems=list;
         System.out.println("List set: " + list.size());

@@ -9,11 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.miteyan.tubemap.TubeActivity">
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/TUBES"
-        android:layout_alignParentTop="true"
+        android:id="@+id/listViewTubes"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

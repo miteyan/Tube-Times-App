@@ -44,7 +44,7 @@ public class CustomListAdapterTubes extends BaseAdapter {
         ListViewItemTubes current = items.get(i);
 
         if (view==null){
-            vi = inflater.inflate(R.layout.station_card,null);
+            vi = inflater.inflate(R.layout.tube_card,null);
         }
 
         TextView arrivalTime = (TextView) vi.findViewById(R.id.tArrivalTime);

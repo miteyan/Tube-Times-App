@@ -7,31 +7,25 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TubeTimes {
-    private static String link = "https://api.tfl.gov.uk/Line/%20piccadilly/Arrivals?stopPointId=9400ZZLUHGD&app_id=318edad9&app_key=f62235cee14d8cd591f491fcd0cf5ac0";
+    //test link
+    private static String link = "https://api.tfl.gov.uk/Line/%20piccadilly/Arrivals?stopPointId=940GZZLUKSX&app_id=318edad9&app_key=f62235cee14d8cd591f491fcd0cf5ac0";
+    //API Keys
+    private final String APP_ID= "318edad9";
+    private final String APP_KEY= "f62235cee14d8cd591f491fcd0cf5ac0";
+    private List<String> allTubeLines;
+    private String stationID;
 
-    public TubeTimes(String tubeLine, String stationID) {
-        link = "https://api.tfl.gov.uk/Line/%20" +
-                tubeLine +
-                "/Arrivals?stopPointId=" +
-                stationID +
-                "&app_id=318edad9&app_key=f62235cee14d8cd591f491fcd0cf5ac0";
-    }
 
     public TubeTimes(List<String> allTubeLines, String stationID) throws IOException, ParseException {
-        for (int i = 0; i < allTubeLines.size(); i++) {
-            System.out.println("Getting: "+ allTubeLines.get(i));
-            link = "https://api.tfl.gov.uk/Line/%20" +
-                    allTubeLines.get(i) +
-                    "/Arrivals?stopPointId=" +
-                    stationID +
-                    "&app_id=318edad9&app_key=f62235cee14d8cd591f491fcd0cf5ac0";
-            getTimes();
-        }
+        this.allTubeLines=allTubeLines;
+        this.stationID=stationID;
     }
 
     public static List<Tube> getTrains(List<String> lines) throws ParseException {
@@ -103,7 +97,7 @@ public class TubeTimes {
             System.out.println(tubes.get(i).toString());
         }
 
-
+        System.out.println(tubes.size());
     }
 
     public static void print(List<String> x) {
@@ -130,6 +124,28 @@ public class TubeTimes {
         }
         List<String> strings = Arrays.asList(all.split("\\s*,\\s*"));
         return strings;
+    }
+
+
+    public List<Tube> getTubeTimes() throws IOException, ParseException {
+        List<Tube> allTubes = Collections.EMPTY_LIST;
+        List<Tube> tmpTubes = Collections.EMPTY_LIST;
+
+        for (int i = 0; i < allTubeLines.size(); i++) {
+            System.out.println("GETTING TUBES: "+ allTubeLines.get(i));
+            link = "https://api.tfl.gov.uk/Line/%20" +
+                    allTubeLines.get(i) +
+                    "/Arrivals?stopPointId=" +
+                    stationID +
+                    "&app_id=" + APP_ID + "&app_key="+APP_KEY;
+            System.out.println(link);
+            tmpTubes= getTimes();
+
+            for(int j=0 ; j<tmpTubes.size();j++) {
+                allTubes.add(tmpTubes.get(j));
+            }
+        }
+        return allTubes;
     }
 
 }
