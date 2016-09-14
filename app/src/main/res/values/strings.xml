@@ -3,6 +3,7 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="pause">Pause Location Updates</string>
-    <string name="resume">Resume Location Updates</string>
+    <string name="resume">Get nearest stations</string>
+    <string name="Nearest">Near me</string>
 
 </resources>

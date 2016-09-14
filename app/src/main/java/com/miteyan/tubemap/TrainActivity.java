@@ -69,10 +69,10 @@ public class TrainActivity extends AppCompatActivity {
         Button button = (Button) view;
         if (button.getText().equals(getResources().getString(R.string.pause))) {
             locationManager.removeUpdates(locationListenerGPS);
-            button.setText(R.string.resume);
+//            button.setText(R.string.resume);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 15, locationListenerGPS);
-            button.setText(R.string.pause);
+//            button.setText(R.string.pause);
 
 
         }

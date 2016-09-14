@@ -2,6 +2,8 @@ package com.miteyan.tubemap;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,21 +22,8 @@ import java.util.List;
 
 public class StationsActivity extends AppCompatActivity {
 
-
-
-    List<Station> listStations = Collections.EMPTY_LIST;
     List<ListViewItem> listStationsItems = Collections.EMPTY_LIST;
     Button button;
-
-    private void setListStation(List<Station> list){
-        this.listStations=list;
-        System.out.println("List set: " + list.size());
-    }
-    private void setList(List<ListViewItem> list){
-        this.listStationsItems=list;
-        System.out.println("List set: " + list.size());
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +58,22 @@ public class StationsActivity extends AppCompatActivity {
     }
 
     public void populate(View view) {
-
         button.setVisibility(View.INVISIBLE);
-        ListView listView = (ListView) findViewById(R.id.listView);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                ListView listView = (ListView) findViewById(R.id.listView);
 //        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.listitem,listStationsName);
 //        assert listView != null;
 //        listView.setAdapter(arrayAdapter);
 
-        //Custom
-        CustomListAdapter customListAdapter = new CustomListAdapter(this, listStationsItems);
-        listView.setAdapter(customListAdapter);
+                //Custom
+                CustomListAdapter customListAdapter = new CustomListAdapter(StationsActivity.this, listStationsItems);
+                listView.setAdapter(customListAdapter);
+            }
+        }, 500);
+        //DELAY ADDED TO ALLOW RESPONSE
 
     }
 
@@ -87,29 +82,44 @@ public class StationsActivity extends AppCompatActivity {
         System.out.println(id);
         return id;
     }
+    public List<String> getTubeLineList(int i){
+        List<String> lines =listStationsItems.get(i).getTubeLineList();
+        return lines;
+    }
 
     private void register() {
         final ListView listView = (ListView) findViewById(R.id.listView);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            private int index;
 
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
                 Toast.makeText(StationsActivity.this,i+"",Toast.LENGTH_LONG ).show();
 
                 ListViewItem a = (ListViewItem) adapterView.getItemAtPosition(i);
-                System.out.println(a.getStationID()+ "LLLLLLLLLLLLLLL");
                 new Thread() {
                     @Override
                     public void run() {
-                        int i = index;
 //                        String stationID = StationID(i);
+                        List<String> tubes = getTubeLineList(i);
                         String stationID = getStationID(i);
-                        TubeTimes times = new TubeTimes("jubilee", stationID);
+                        TubeTimes times = null;
+                        try {
+                            System.out.println(tubes+stationID+ " I INIONoindcaoinanon");
+                            times = new TubeTimes(tubes, stationID);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         try {
                             List<Tube> list =times.getTimes();
                             String s = "String";
+                            Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelableArrayList("Tubes", (ArrayList<? extends Parcelable>) list);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (ParseException e) {
@@ -118,15 +128,14 @@ public class StationsActivity extends AppCompatActivity {
                     }
 
                 }.start();
-
-                Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
-//                intent.putExtra("String",s);
-                startActivity(intent);
             }
-
 
         });
     }
 
+    private void setList(List<ListViewItem> list){
+        this.listStationsItems=list;
+        System.out.println("List set: " + list.size());
+    }
 
 }

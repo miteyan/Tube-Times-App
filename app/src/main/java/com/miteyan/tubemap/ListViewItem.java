@@ -1,6 +1,5 @@
 package com.miteyan.tubemap;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +31,9 @@ public class ListViewItem{
 
     public String getStationName() {
         return stationName;
+    }
+    public List<String> getTubeLineList() {
+        return tubeLinesList;
     }
 
     public String getTubeLines() {

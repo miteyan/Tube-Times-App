@@ -52,7 +52,7 @@ public class TubeTimes {
                 tubes.add(new Tube(stationName));
             }
 
-            int numTubes = tubes.size();
+//            int numTubes = tubes.size();
             //if line contains line id - add a new tube to the array list of tubes.
             if (line.contains("lineId")) {
                 tubes.get(index).setLine(regex(line, "lineId"));

@@ -13,20 +13,18 @@ public enum Lines {
     HAMMERSMITH ("hammersmith-city"),
     JUBILEE ("jubilee"),
     VICTORIA ("victoria"),
-    WATERLOO ("waterloo-city");
+    WATERLOO ("waterloo-city"),
+    DLR ("DLR");
 
     private String stationID;
     Lines(String stationID) {
         this.stationID=stationID;
-    }
-    Lines() {
-
     }
 
     public String getStationID() {
         return stationID;
     }
     public static Lines[] getLines(){
-        return new Lines[] {METROPOLITAN,PICCADILLY,NORTHERN,BAKERLOO,CENTRAL,CIRCLE,DISTRICT,HAMMERSMITH,JUBILEE,VICTORIA,WATERLOO};
+        return new Lines[] {METROPOLITAN,PICCADILLY,NORTHERN,BAKERLOO,CENTRAL,CIRCLE,DISTRICT,HAMMERSMITH,JUBILEE,VICTORIA,WATERLOO,DLR};
     }
 }
