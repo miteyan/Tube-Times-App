@@ -125,6 +125,7 @@ import android.os.Parcelable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -185,19 +186,39 @@ public class Tube implements Parcelable {
         System.out.println("Arrival set: " +this.arrivalTime);
         getTimeTo();
     }
-    public String getTimeTo(){
-        Date now = new Date();
-        date.setMonth(now.getMonth());
-        date.setYear(now.getYear());
-        date.setDate(now.getDate());
-        long diffMs = date.getTime()-now.getTime();
-        long diffSec = diffMs / 1000;
-        long min = diffSec / 60;
-        long sec = diffSec % 60;
-        timeTo = min+ ":"+sec;
-        String timeLeft="Arriving in "+min+" minutes and "+sec+" seconds.";
-        System.out.println(timeLeft);
-        return timeLeft;
+//    public String getTimeTo(){
+//        Date now = new Date();
+//        //date is the time at which the train arrives
+//        if (date.getHours()>0 )
+//        date.setMonth(now.getMonth());
+//        date.setYear(now.getYear());
+//        date.setDate(now.getDate());
+//        long diffMs = date.getTime()-now.getTime();
+//        long diffSec = diffMs / 1000;
+//        long min = diffSec / 60;
+//        long sec = diffSec % 60;
+//        timeTo = min+ ":"+sec;
+//        String timeLeft="Arriving in "+min+":"+sec;
+//        System.out.println(timeLeft);
+//        return timeLeft;
+//    }
+    public String getTimeTo() {
+
+        Calendar cal = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        cal.setTime(date);
+        if ( (cal.getTime().getHours()==22||cal.getTime().getHours()==23) && now.getTime().getHours()==0){
+            now.set(1970,00,02);
+        }
+        else{
+            now.set(1970,00,01);
+        }
+        long diff = now.getTime().getTime()-cal.getTime().getTime();
+        long diffSecs = diff/1000;
+        long mins = diffSecs/60;
+        long secs = diffSecs%60;
+        return Math.abs(mins)+":"+Math.abs(secs);
+    //          return cal.g/etTime().toString()+ "\n"+ now.getTime().toString();
     }
 
     @Override
@@ -235,9 +256,6 @@ public class Tube implements Parcelable {
     public String getPlatform() {
         return platform;
     }
-
-
-
 
     protected Tube(Parcel in) {
         line = in.readString();
