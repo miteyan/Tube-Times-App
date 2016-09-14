@@ -25,7 +25,6 @@ public class StationsActivity extends AppCompatActivity {
     List<Station> listStations = Collections.EMPTY_LIST;
     List<ListViewItem> listStationsItems = Collections.EMPTY_LIST;
     Button button;
-    private String[] listStationsName;
 
     private void setListStation(List<Station> list){
         this.listStations=list;
@@ -34,9 +33,6 @@ public class StationsActivity extends AppCompatActivity {
     private void setList(List<ListViewItem> list){
         this.listStationsItems=list;
         System.out.println("List set: " + list.size());
-    }
-    private void setList(String[] list){
-        this.listStationsName=list;
     }
 
 
@@ -58,7 +54,7 @@ public class StationsActivity extends AppCompatActivity {
 //                    LatLng location = new LatLng(51.531172, -0.129047);
 
                     NearestStations ns = new NearestStations(location);
-                    List<ListViewItem> stationsList = ns.getStationsListItems();
+                    List<ListViewItem> stationsList = ns.getStationsList();
                     setList(stationsList);
                     //return list view items
                 } catch (IOException e) {
@@ -86,17 +82,49 @@ public class StationsActivity extends AppCompatActivity {
 
     }
 
+    public String getStationID(int i){
+        String id =listStationsItems.get(i).getStationID();
+        System.out.println(id);
+        return id;
+    }
 
     private void register() {
         final ListView listView = (ListView) findViewById(R.id.listView);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            private int index;
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(StationsActivity.this,i+"",Toast.LENGTH_LONG ).show();
-                listStationsItems.
+
+                ListViewItem a = (ListViewItem) adapterView.getItemAtPosition(i);
+                System.out.println(a.getStationID()+ "LLLLLLLLLLLLLLL");
+                new Thread() {
+                    @Override
+                    public void run() {
+                        int i = index;
+//                        String stationID = StationID(i);
+                        String stationID = getStationID(i);
+                        TubeTimes times = new TubeTimes("jubilee", stationID);
+                        try {
+                            List<Tube> list =times.getTimes();
+                            String s = "String";
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }.start();
+
                 Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
+//                intent.putExtra("String",s);
                 startActivity(intent);
             }
+
+
         });
     }
 

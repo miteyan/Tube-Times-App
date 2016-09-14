@@ -9,24 +9,27 @@ import java.util.List;
 
 public class Station {
 
+    private List<String> linesAtStation= new ArrayList<>();
+    private String name;
+    private String distance;
+    private String stationID;
+
     public Station(String stationID) {
         this.stationID = stationID;
         System.out.println();
     }
 
-
-    List<String> linesAtStation= new ArrayList<String>();
-    String name;
-
     public String getStationID() {
         return stationID;
     }
 
-    public void setStationID(String stationID) {
-        this.stationID = stationID;
-    }
+//    public void setStationID(String stationID) {
+//        this.stationID = stationID;
+//    }
+//    public void setTubeLines(List<String> tubes) {
+//        this.linesAtStation = tubes;
+//    }
 
-    String stationID;
     public String getDistance() {
         return distance;
     }
@@ -36,8 +39,6 @@ public class Station {
         System.out.println("Distance set: " +distance);
 
     }
-
-    String distance;
 
     public List<String> getTubes() {
         return linesAtStation;
@@ -52,9 +53,6 @@ public class Station {
         return ret;
     }
 
-    public void setTubeLines(List<String> tubes) {
-        this.linesAtStation = tubes;
-    }
     public void addTubeLine(String line) {
         linesAtStation.add(line);
         System.out.println(line+ " added");

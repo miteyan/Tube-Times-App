@@ -110,15 +110,33 @@ public class NearestStations {
         return stationsName;
     }
 
-    public static List<ListViewItem> getStationsListItems() throws IOException {
+//    public static List<ListViewItem> getStationsListItems() throws IOException {
+////        print(save(link));
+//        System.out.println("Getting stations");
+//        List<Station> stationsList =  crawl(save(link));
+//        int size= stationsList.size();
+//        ArrayList<ListViewItem> stationsListItems = new ArrayList<ListViewItem>(size);
+//        for (int i = 0; i<size; i++) {
+//            Station current = stationsList.get(i);
+//
+//            ListViewItem newItem = new ListViewItem(current.getStationID(),current.getName(),current.getTubeLines(),current.getDistance());
+//            stationsListItems.add(i,newItem);
+//        }
+//        return stationsListItems;
+//    }
+
+    public static List<ListViewItem> getStationsList() throws IOException {
 //        print(save(link));
         System.out.println("Getting stations");
         List<Station> stationsList =  crawl(save(link));
+
         int size= stationsList.size();
-        ArrayList<ListViewItem> stationsListItems = new ArrayList<ListViewItem>(size);
+        ArrayList<ListViewItem> stationsListItems = new ArrayList<>(size);
+
         for (int i = 0; i<size; i++) {
             Station current = stationsList.get(i);
-            ListViewItem newItem = new ListViewItem(current.getName(),current.getTubeLines(),current.getDistance());
+
+            ListViewItem newItem = new ListViewItem(current.getStationID(),current.getName(),current.getTubes(),current.getDistance());
             stationsListItems.add(i,newItem);
         }
         return stationsListItems;
