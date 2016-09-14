@@ -1,6 +1,7 @@
 package com.miteyan.tubemap;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class StationsActivity extends AppCompatActivity {
+
+
 
     List<Station> listStations = Collections.EMPTY_LIST;
     List<ListViewItem> listStationsItems = Collections.EMPTY_LIST;
@@ -46,13 +49,17 @@ public class StationsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    LatLng location = new LatLng(51.548016, -0.448190);
+                    //pass info from location activity
+                    Bundle bundle = getIntent().getExtras();
+                    final double Lat = bundle.getDouble("lat");
+                    final double Long = bundle.getDouble("long");
+                    LatLng location = new LatLng(Lat, Long);
+
+//                    LatLng location = new LatLng(51.531172, -0.129047);
 
                     NearestStations ns = new NearestStations(location);
                     List<ListViewItem> stationsList = ns.getStationsListItems();
                     setList(stationsList);
-
-
                     //return list view items
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -86,7 +93,7 @@ public class StationsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(StationsActivity.this,i+"",Toast.LENGTH_LONG ).show();
-
+                listStationsItems.
                 Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
                 startActivity(intent);
             }

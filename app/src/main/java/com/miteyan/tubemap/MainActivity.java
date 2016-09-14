@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(("Turn Location On"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent locationSettings = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+                        Intent locationSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivity(locationSettings);
                     }
                 })
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean LocationEnabled() {//show dialog if disabled location
         if (!isLocationEnabled()) {
             showAlert();
+            Toast.makeText(this,"Location off",Toast.LENGTH_SHORT).show();
         }
         return isLocationEnabled();
     }
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toggleGPSUpdates(View view) {
 
-        if (!isLocationEnabled()) {
+        if (!LocationEnabled()) {
             return;
         }
         Button button = (Button) view;
@@ -87,29 +88,24 @@ public class MainActivity extends AppCompatActivity {
             button.setText(R.string.resume);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 15, locationListenerGPS);
-            button.setText(R.string.pause);
         }
     }
 
     public void toggleNetworkUpdates(View view) {
-        Intent intent = new Intent(this, TrainActivity.class);
-        startActivity(intent);
-//        if (!isLocationEnabled()) {
-//            return;
-//        }
-//        Button button = (Button) view;
-//
-//        if (button.getText().equals(getResources().getString(R.string.pause))) {
-//            locationManager.removeUpdates(locationListenerNetwork);
-//            button.setText(R.string.resume);
-//        } else {
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 15, locationListenerNetwork);
-//            button.setText(R.string.pause);
-//        }
+        if (!LocationEnabled()) {
+            return;}
+        Button button = (Button) view;
+        if (button.getText().equals(getResources().getString(R.string.pause))) {
+            locationManager.removeUpdates(locationListenerNetwork);
+            button.setText(R.string.resume);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 15, locationListenerNetwork);
+            button.setText(R.string.pause);
+        }
     }
 
     public void toggleBestUpdates(View view) {
-        if (!isLocationEnabled()) {
+        if (!LocationEnabled()) {
             return;
         }
         Button button = (Button) view;
@@ -134,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final LocationListener locationListenerGPS = new LocationListener() {
         @Override
-        public void onLocationChanged(Location location) {
+        public void onLocationChanged(final Location location) {
             latitudeGPS = location.getLatitude();
             longitudeGPS = location.getLongitude();
             runOnUiThread(new Runnable() {
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     longitudeValueGPS.setText(longitudeGPS + "");
                     latitudeValueGPS.setText(latitudeGPS + "");
-                    Toast.makeText(MainActivity.this, "GPS Provider update", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, location.getProvider(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

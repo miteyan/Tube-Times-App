@@ -21,62 +21,53 @@
             android:onClick="getNearestStations"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            />
 
         <Button
-            android:id="@+id/locationControllerBest"
+            android:id="@+id/locationControllerGPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="resume"
-            android:onClick="toggleBestUpdates"
+            android:onClick="toggleGPSUpdates"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
         <TextView
-            android:id="@+id/longitudeTextBest"
+            android:id="@+id/longitudeTextGPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/locationControllerBest"
+            android:layout_below="@id/locationControllerGPS"
             android:text="longitude"
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/longitudeValueBest"
+            android:id="@+id/longitudeValueGPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/locationControllerBest"
-            android:layout_toRightOf="@id/longitudeTextBest"
+            android:layout_below="@id/locationControllerGPS"
+            android:layout_toRightOf="@id/longitudeTextGPS"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="0.0000"
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/latitudeTextBest"
+            android:id="@+id/latitudeTextGPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/longitudeTextBest"
+            android:layout_below="@id/longitudeTextGPS"
             android:text="latitude"
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/latitudeValueBest"
+            android:id="@+id/latitudeValueGPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/longitudeValueBest"
-            android:layout_toRightOf="@id/longitudeTextBest"
+            android:layout_below="@id/longitudeValueGPS"
+            android:layout_toRightOf="@id/longitudeTextGPS"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="0.0000"
             android:textSize="20sp"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/latitudeValueBest"
-            android:layout_above="@+id/nearestStationsButton"
-            android:orientation="vertical"
-            android:id="@+id/stationsHolder">
-
-        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 </ScrollView>
