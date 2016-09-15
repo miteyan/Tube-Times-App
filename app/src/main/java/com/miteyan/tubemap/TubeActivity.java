@@ -1,5 +1,6 @@
 package com.miteyan.tubemap;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -12,9 +13,11 @@ public class TubeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tube);
 
+        //get tubes from previous intent
         ArrayList<Tube> tubes = getIntent().getParcelableArrayListExtra("Tubes");
         int size= tubes.size();
-        //Convert tubes object to listtubes objects
+
+        //Convert tubes object to listtubes objects and insert
         ArrayList<ListViewItemTubes> listStationsItemsTubes = new ArrayList<>(size);
         Tube currentTube;
         ListViewItemTubes currListTube;
@@ -28,7 +31,10 @@ public class TubeActivity extends AppCompatActivity {
                     currentTube.getCurrLocation());
             listStationsItemsTubes.add(i,currListTube);
         }
+        //List view for tubes created
         ListView listViewTubes = (ListView) findViewById(R.id.listViewTubes);
+        listViewTubes.setDivider(new ColorDrawable(this.getResources().getColor(R.color.colorAccent)));   //0xAARRGGBB
+        listViewTubes.setDividerHeight(2);
         CustomListAdapterTubes customListAdapter = new CustomListAdapterTubes(TubeActivity.this, listStationsItemsTubes);
         listViewTubes.setAdapter(customListAdapter);
 

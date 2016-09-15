@@ -59,15 +59,6 @@ public class Station {
         System.out.println("Station name: " + name);
     }
 
-    public String getTubeLines() {
-        int numLines = linesAtStation.size();
-        String ret = "";
-        for (int i = 0 ; i<numLines; i++) {
-            ret= ret+linesAtStation.get(i) + " ";
-        }
-        return ret;
-    }
-
     @Override
     public String toString() {
         return "Station{" +

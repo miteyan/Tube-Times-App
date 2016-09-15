@@ -3,7 +3,6 @@ package com.miteyan.tubemap;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,10 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-public class TrainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     double longitudeGPS, latitudeGPS;
@@ -26,10 +24,10 @@ public class TrainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trains);
+        setContentView(R.layout.activity_home);
         //REGISTER TEXT VIEWS
-        longitudeValueGPS = (TextView) findViewById(R.id.longitudeValueGPS);
-        latitudeValueGPS = (TextView) findViewById(R.id.latitudeValueGPS);
+//        longitudeValueGPS = (TextView) findViewById(R.id.longitudeValueGPS);
+//        latitudeValueGPS = (TextView) findViewById(R.id.latitudeValueGPS);
         //REGISTER LOCATION MANAGER
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
@@ -67,15 +65,7 @@ public class TrainActivity extends AppCompatActivity {
     public void toggleGPSUpdates(View view) {
         if (!LocationEnabled()) {return;}
         Button button = (Button) view;
-        if (button.getText().equals(getResources().getString(R.string.pause))) {
-            locationManager.removeUpdates(locationListenerGPS);
-//            button.setText(R.string.resume);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 15, locationListenerGPS);
-//            button.setText(R.string.pause);
-
-
-        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 15, locationListenerGPS);
 
     }
 
@@ -87,9 +77,9 @@ public class TrainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    longitudeValueGPS.setText(longitudeGPS + "");
-                    latitudeValueGPS.setText(latitudeGPS + "");
-                    Intent intent = new Intent(TrainActivity.this, StationsActivity.class);
+//                    longitudeValueGPS.setText(longitudeGPS + "");
+//                    latitudeValueGPS.setText(latitudeGPS + "");
+                    Intent intent = new Intent(HomeActivity.this, StationsActivity.class);
                     intent.putExtra("lat",latitudeGPS);
                     intent.putExtra("long", longitudeGPS);
 //            intent.putExtra("long",longitudeGPS);

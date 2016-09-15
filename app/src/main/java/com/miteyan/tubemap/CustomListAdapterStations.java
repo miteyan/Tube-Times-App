@@ -13,12 +13,12 @@ import android.widget.TextView;
 /**
  * Created by miteyan on 12/09/2016.
  */
-public class CustomListAdapter extends BaseAdapter {
+public class CustomListAdapterStations extends BaseAdapter {
 
-    List<ListViewItem> items;
+    List<ListViewItemStations> items;
     LayoutInflater inflater;
 
-    public CustomListAdapter(Activity context, List<ListViewItem> items) {
+    public CustomListAdapterStations(Activity context, List<ListViewItemStations> items) {
         this.items=items;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -41,7 +41,7 @@ public class CustomListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View vi = view;
-        ListViewItem current = items.get(i);
+        ListViewItemStations current = items.get(i);
 
         if (view==null){
             vi = inflater.inflate(R.layout.station_card,null);

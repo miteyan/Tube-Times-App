@@ -1,7 +1,8 @@
 package com.miteyan.tubemap;
 
 import android.content.Intent;
-import android.location.Location;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -23,13 +22,14 @@ import java.util.List;
 
 public class StationsActivity extends AppCompatActivity {
 
-    List<ListViewItem> listStationsItems = Collections.EMPTY_LIST;
-    Button button;
+    private List<ListViewItemStations> listStationsItems = Collections.EMPTY_LIST;
+    private Button button;
+    private long STATIONAPIDELAY=2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stations2);
+        setContentView(R.layout.activity_stations);
 
         new Thread() {
             @Override
@@ -37,12 +37,9 @@ public class StationsActivity extends AppCompatActivity {
                 try {
                     //pass info from location activity
                     Bundle bundle = getIntent().getExtras();
-                    final double Lat = bundle.getDouble("lat");
-                    final double Long = bundle.getDouble("long");
-                    LatLng location = new LatLng(Lat, Long);
-//                    LatLng location = new LatLng(51.531172, -0.129047);
+                    LatLng location = new LatLng(51.531172, -0.129047);
                     NearestStations ns = new NearestStations(location);
-                    List<ListViewItem> stationsList = ns.getStationsList();
+                    List<ListViewItemStations> stationsList = ns.getStationsList();
                     setList(stationsList);
                     //return list view items
                 } catch (IOException e) {
@@ -51,11 +48,14 @@ public class StationsActivity extends AppCompatActivity {
             }
         }.start();
         ListView listView = (ListView) findViewById(R.id.listView);
-
+        listView.setDivider(new ColorDrawable(this.getResources().getColor(R.color.colorAccent)));   //0xAARRGGBB
+        listView.setDividerHeight(2);
         button = (Button)findViewById(R.id.BUTTON);
         register();
+        populate(button);
     }
 
+    //generate and insert stations into list view
     public void populate(View view) {
         button.setVisibility(View.INVISIBLE);
 
@@ -63,26 +63,13 @@ public class StationsActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
                 ListView listView = (ListView) findViewById(R.id.listView);
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.listitem,listStationsName);
-//        assert listView != null;
-//        listView.setAdapter(arrayAdapter);
-                //Custom
-                CustomListAdapter customListAdapter = new CustomListAdapter(StationsActivity.this, listStationsItems);
-                listView.setAdapter(customListAdapter);
+                //Custom list adapter
+                CustomListAdapterStations customListAdapterStations = new CustomListAdapterStations(StationsActivity.this, listStationsItems);
+                listView.setAdapter(customListAdapterStations);
             }
-        }, 500);
-        //DELAY ADDED TO ALLOW RESPONSE
+        }, STATIONAPIDELAY);
+        //DELAY ADDED TO ALLOW API RESPONSE
 
-    }
-
-    public String getStationID(int i){
-        String id =listStationsItems.get(i).getStationID();
-        System.out.println(id);
-        return id;
-    }
-    public List<String> getTubeLineList(int i){
-        List<String> lines =listStationsItems.get(i).getTubeLineList();
-        return lines;
     }
 
     private void register() {
@@ -92,16 +79,20 @@ public class StationsActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                Toast.makeText(StationsActivity.this,i+"",Toast.LENGTH_LONG ).show();
+                //list item clicked on
+                final ListViewItemStations current = (ListViewItemStations) adapterView.getItemAtPosition(i);
+                Toast.makeText(StationsActivity.this,current.getStationName()+"",Toast.LENGTH_LONG ).show();
 
-                ListViewItem a = (ListViewItem) adapterView.getItemAtPosition(i);
                 new Thread() {
                     @Override
                     public void run() {
 //                        String stationID = StationID(i);
-                        List<String> tubes = getTubeLineList(i);
-                        print(tubes);
-                        String stationID = getStationID(i);
+
+                        List<String> tubes = current.getTubeLineList();
+//                                getTubeLineList(i);
+//                        print(tubes);
+                        String stationID = current.getStationID();
+//                                getStationID(i);
                         TubeTimes times = null;
                         try {
                             times = new TubeTimes(tubes, stationID);
@@ -112,8 +103,6 @@ public class StationsActivity extends AppCompatActivity {
                         }
                         try {
                             List<Tube> list = times.getTubeTimes();
-                            Log.v("Tag",""+list.size());
-
                             Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putParcelableArrayList("Tubes", (ArrayList<? extends Parcelable>) list);
@@ -129,12 +118,8 @@ public class StationsActivity extends AppCompatActivity {
             }
         });
     }
-    public static void print(List<String> a) {
-        for (int i =0 ; i<a.size(); i++) {
-            System.out.println(a.get(i));
-        }
-    }
-    private void setList(List<ListViewItem> list){
+
+    private void setList(List<ListViewItemStations> list){
         this.listStationsItems=list;
         System.out.println("List set: " + list.size());
     }

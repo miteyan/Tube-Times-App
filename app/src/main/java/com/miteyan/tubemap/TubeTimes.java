@@ -22,7 +22,6 @@ public class TubeTimes {
     private List<String> allTubeLines;
     private String stationID;
 
-
     public TubeTimes(List<String> allTubeLines, String stationID) throws IOException, ParseException {
         this.allTubeLines=allTubeLines;
         this.stationID=stationID;
@@ -130,6 +129,7 @@ public class TubeTimes {
     public ArrayList<Tube> getTubeTimes() throws IOException, ParseException {
         ArrayList<Tube> allTubes = new ArrayList<Tube>();
         ArrayList<Tube> tmpTubes;
+        //iterate through all the lines
         for (int i = 0; i < allTubeLines.size(); i++) {
             System.out.println("GETTING TUBES: "+ allTubeLines.get(i));
             link = "https://api.tfl.gov.uk/Line/%20" +
@@ -144,7 +144,7 @@ public class TubeTimes {
                 allTubes.add(tmpTubes.get(j));
             }
         }
-        return (ArrayList<Tube>) allTubes;
+        return allTubes;
     }
 
 }
