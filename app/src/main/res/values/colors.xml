@@ -9,7 +9,10 @@
 <color name="icons">#FFFFFF</color>
 <color name="divider">#BDBDBD</color>
 <color name="grey">#5e5e5e</color>
+
 <color name="grey2">#1c1c1c</color>
+<color name="blackgrey">#1e1e1e</color>
+<color name="bg">#424242</color>
 
 
 </resources>

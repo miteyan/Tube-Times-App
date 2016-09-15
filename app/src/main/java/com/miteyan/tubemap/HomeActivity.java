@@ -7,27 +7,28 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class HomeActivity extends AppCompatActivity {
 
     LocationManager locationManager;
-    double longitudeGPS, latitudeGPS;
-    TextView longitudeValueGPS, latitudeValueGPS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        //REGISTER TEXT VIEWS
-//        longitudeValueGPS = (TextView) findViewById(R.id.longitudeValueGPS);
-//        latitudeValueGPS = (TextView) findViewById(R.id.latitudeValueGPS);
         //REGISTER LOCATION MANAGER
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
@@ -64,36 +65,91 @@ public class HomeActivity extends AppCompatActivity {
 
     public void toggleGPSUpdates(View view) {
         if (!LocationEnabled()) {return;}
-        Button button = (Button) view;
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 15, locationListenerGPS);
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 15, locationListenerGPS);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // instantiate the location manager
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                // get the last know location from your location manager.
+                Location loc= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                // now get the lat/lon from the location and do something with it.
+                Intent intent = new Intent(HomeActivity.this, StationsActivity.class);
+                intent.putExtra("lat",loc.getLatitude());
+                intent.putExtra("long", loc.getLongitude());
+                startActivity(intent);
+            }
+        });
+    }
+//    private final LocationListener locationListenerGPS = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(final Location location) {
+//            double latitudeGPS = location.getLatitude();
+//            double longitudeGPS = location.getLongitude();
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+////                    longitudeValueGPS.setText(longitudeGPS + "");
+////                    latitudeValueGPS.setText(latitudeGPS + "");
+//                    Intent intent = new Intent(HomeActivity.this, StationsActivity.class);
+//                    intent.putExtra("lat",latitudeGPS);
+//                    intent.putExtra("long", longitudeGPS);
+////            intent.putExtra("long",longitudeGPS);
+//                    if (longitudeGPS!=0 && latitudeGPS!=0)
+//                    {startActivity(intent);}
+//
+//                }
+//            });
+//        }
+//        @Override
+//        public void onStatusChanged(String s, int i, Bundle bundle) {}
+//        @Override
+//        public void onProviderEnabled(String s) {
+//
+//        }
+//        @Override
+//        public void onProviderDisabled(String s) {}};
+//
 
+    public void nearest(View view) {
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+
+                    Location locationL = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    double latitudeGPS = locationL.getLatitude();
+                    double longitudeGPS = locationL.getLongitude();
+                    LatLng location = new LatLng(latitudeGPS,longitudeGPS);
+                    NearestStations nearestStation = new NearestStations(location,true);
+                    Station nearest  =nearestStation.getStations().get(0);
+                    TubeTimes t = new TubeTimes(nearest.getTubes(),nearest.getStationID());
+                    ArrayList<Tube> tubes = (t.getTubeTimes());
+                    //sort list of times
+                    Collections.sort(tubes, new Comparator<Tube>() {
+                        @Override
+                        public int compare(Tube tube, Tube t1) {
+                            return tube.getDate().compareTo(t1.getDate());
+                        }
+                    });
+
+                    Intent intent = new Intent(HomeActivity.this,NearestActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("Tubes", (ArrayList<? extends Parcelable>) tubes);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
-    private final LocationListener locationListenerGPS = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            latitudeGPS = location.getLatitude();
-            longitudeGPS = location.getLongitude();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-//                    longitudeValueGPS.setText(longitudeGPS + "");
-//                    latitudeValueGPS.setText(latitudeGPS + "");
-                    Intent intent = new Intent(HomeActivity.this, StationsActivity.class);
-                    intent.putExtra("lat",latitudeGPS);
-                    intent.putExtra("long", longitudeGPS);
-//            intent.putExtra("long",longitudeGPS);
-                    if (longitudeGPS!=0 && latitudeGPS!=0)
-                    {startActivity(intent);}
-
-                }
-            });
-        }
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {}
-        @Override
-        public void onProviderEnabled(String s) {}
-        @Override
-        public void onProviderDisabled(String s) {}};
-
+    public void tube(View view) {
+        Intent intent = new Intent(this, TubeMap.class);
+        startActivity(intent);
+    }
 }

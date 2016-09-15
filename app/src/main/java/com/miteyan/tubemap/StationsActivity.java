@@ -17,13 +17,14 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class StationsActivity extends AppCompatActivity {
 
     private List<ListViewItemStations> listStationsItems = Collections.EMPTY_LIST;
-    private Button button;
     private long STATIONAPIDELAY=2000;
 
     @Override
@@ -37,7 +38,10 @@ public class StationsActivity extends AppCompatActivity {
                 try {
                     //pass info from location activity
                     Bundle bundle = getIntent().getExtras();
-                    LatLng location = new LatLng(51.531172, -0.129047);
+                    final double Lat = bundle.getDouble("lat");
+                    final double Long = bundle.getDouble("long");
+                    LatLng location = new LatLng(Lat, Long);
+//                    LatLng location = new LatLng(51.531172, -0.129047);
                     NearestStations ns = new NearestStations(location);
                     List<ListViewItemStations> stationsList = ns.getStationsList();
                     setList(stationsList);
@@ -50,14 +54,13 @@ public class StationsActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setDivider(new ColorDrawable(this.getResources().getColor(R.color.colorAccent)));   //0xAARRGGBB
         listView.setDividerHeight(2);
-        button = (Button)findViewById(R.id.BUTTON);
         register();
-        populate(button);
+        populate();
     }
 
     //generate and insert stations into list view
-    public void populate(View view) {
-        button.setVisibility(View.INVISIBLE);
+    public void populate() {
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -66,6 +69,7 @@ public class StationsActivity extends AppCompatActivity {
                 //Custom list adapter
                 CustomListAdapterStations customListAdapterStations = new CustomListAdapterStations(StationsActivity.this, listStationsItems);
                 listView.setAdapter(customListAdapterStations);
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             }
         }, STATIONAPIDELAY);
         //DELAY ADDED TO ALLOW API RESPONSE
@@ -75,6 +79,7 @@ public class StationsActivity extends AppCompatActivity {
     private void register() {
         final ListView listView = (ListView) findViewById(R.id.listView);
 
+        assert listView != null;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
@@ -103,6 +108,16 @@ public class StationsActivity extends AppCompatActivity {
                         }
                         try {
                             List<Tube> list = times.getTubeTimes();
+
+                            //sort list on times
+                            Collections.sort(list, new Comparator<Tube>() {
+                                @Override
+                                public int compare(Tube tube, Tube t1) {
+                                    return tube.getDate().compareTo(t1.getDate());
+                                }
+                            });
+
+
                             Intent intent = new Intent(StationsActivity.this,TubeActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putParcelableArrayList("Tubes", (ArrayList<? extends Parcelable>) list);

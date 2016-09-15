@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">TubeMap</string>
-    <string name="title_activity_maps">Map</string>
-
+    <string name="app_name">Tube Times</string>
     <string name="pause">Pause Location Updates</string>
     <string name="resume">Get nearest stations</string>
     <string name="nearest">Stations Near me</string>
     <string name="location">Get Location</string>
+    <string name="title_activity_tube_map">TubeMap</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -13,28 +13,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
+        android:textSize="16dp"
         android:textColor="#000"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Platform 4"
-        android:id="@+id/tPlatform"
-        android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/tCurrLocation"
-        android:layout_alignEnd="@+id/tCurrLocation"
-        android:textColor="@color/grey"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Arriving in 13:10"
-        android:id="@+id/tArrivalTime"
-        android:layout_gravity="right"
-        android:layout_below="@+id/tTimeTo"
-        android:layout_toEndOf="@+id/tDestination"
-        android:textColor="@color/grey"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,26 +23,48 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/tTube"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/grey2"/>
+        android:textColor="@color/grey2"
+        android:textSize="15dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ruislip"
+        android:text="Between finchley road and baker street"
         android:id="@+id/tCurrLocation"
         android:layout_gravity="center_horizontal"
         android:layout_below="@+id/tDestination"
         android:layout_toStartOf="@+id/tTube"
-        android:textColor="@color/grey"/>
+        android:textColor="@color/blackgrey"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Arriving in 12:12:23"
+        android:id="@+id/tTimeTo"
+        android:layout_gravity="right"
+        android:textColor="@color/blackgrey"
+        android:layout_below="@+id/tDestination"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13:10"
+        android:id="@+id/tArrivalTime"
+        android:layout_gravity="right"
+        android:textColor="@color/grey"
+        android:layout_below="@+id/tCurrLocation"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12:12:23"
-        android:id="@+id/tTimeTo"
-        android:layout_gravity="right"
-        android:layout_below="@+id/tDestination"
-        android:layout_toEndOf="@+id/tTube"
-        android:textColor="@color/grey"/>
+        android:text="south bound - platform 3"
+        android:id="@+id/tPlatform"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/grey"
+        android:layout_below="@+id/tCurrLocation"
+        android:layout_alignParentStart="true" />
+
+
 
 </RelativeLayout>

@@ -58,7 +58,7 @@ public class CustomListAdapterTubes extends BaseAdapter {
         destination.setText(current.getDestination());
 
         TextView timeTo = (TextView) vi.findViewById(R.id.tTimeTo);
-        timeTo.setText(current.getTime());
+        timeTo.setText("Arriving in: "+current.getTime());
 
         TextView platform = (TextView) vi.findViewById(R.id.tPlatform);
         platform.setText(current.getPlatform());
@@ -66,13 +66,7 @@ public class CustomListAdapterTubes extends BaseAdapter {
         String tube = current.getTubeLine();
 
         TextView line = (TextView) vi.findViewById(R.id.tTube);
-        if (tube.equals("metropolitan")) {
-            line.setTextColor(Color.rgb(94,13,58));
-        }
-
-
         line.setText(tube);
-        System.out.println("LINE" +line.getText());
 
         return vi;
 

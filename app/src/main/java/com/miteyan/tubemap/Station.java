@@ -23,13 +23,6 @@ public class Station {
         return stationID;
     }
 
-//    public void setStationID(String stationID) {
-//        this.stationID = stationID;
-//    }
-//    public void setTubeLines(List<String> tubes) {
-//        this.linesAtStation = tubes;
-//    }
-
     public String getDistance() {
         return distance;
     }
@@ -43,7 +36,6 @@ public class Station {
     public List<String> getTubes() {
         return linesAtStation;
     }
-
 
     public void addTubeLine(String line) {
         linesAtStation.add(line);

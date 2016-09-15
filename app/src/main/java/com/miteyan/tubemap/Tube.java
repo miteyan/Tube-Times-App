@@ -13,7 +13,7 @@ import java.util.TimeZone;
  * Created by miteyan on 08/09/2016.
  */
 
-public class Tube implements Parcelable {
+public class Tube implements Parcelable, Comparable<Tube> {
     private String line;
     private String platform;
     private String destination;
@@ -21,6 +21,7 @@ public class Tube implements Parcelable {
     private String arrivalTime;
     private String stationName;
     private Date date;
+
     private String timeTo;
 
     public Tube (String stationName) {
@@ -28,7 +29,9 @@ public class Tube implements Parcelable {
         System.out.println();
         System.out.println("New Tube added: "+stationName);
     }
-
+    public Date getDate() {
+        return date;
+    }
     public void setLine(String line) {
         this.line = line;
         System.out.println("Line: "+line);
@@ -97,8 +100,12 @@ public class Tube implements Parcelable {
         long diffSecs = diff/1000;
         long mins = diffSecs/60;
         long secs = diffSecs%60;
-        return Math.abs(mins)+":"+Math.abs(secs);
-    //          return cal.g/etTime().toString()+ "\n"+ now.getTime().toString();
+        if (Math.abs(secs)<10){
+            return Math.abs(mins)+":0"+Math.abs(secs);
+        }else {
+            return Math.abs(mins)+":"+Math.abs(secs);
+
+        }
     }
 
     @Override
@@ -178,4 +185,11 @@ public class Tube implements Parcelable {
             return new Tube[size];
         }
     };
+
+    @Override
+    public int compareTo(Tube comparedTube) {
+
+
+        return (int) ((int) this.date.getTime()-comparedTube.date.getTime());
+    }
 }

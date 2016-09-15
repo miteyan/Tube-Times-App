@@ -25,6 +25,10 @@ public class NearestStations {
         link ="http://transportapi.com/v3/uk/tube/stations/near.json?app_id=03bf8009&app_key=d9307fd91b0247c607e098d5effedc97&lat=" +
                 location.getLat() + "&lon=" + location.getLng() + "&page=1&rpp="+NUM_STATIONS;
     }
+    public NearestStations(LatLng location, boolean nearest) throws IOException {//initialise API link to get the nearest station then parse
+        link ="http://transportapi.com/v3/uk/tube/stations/near.json?app_id=03bf8009&app_key=d9307fd91b0247c607e098d5effedc97&lat=" +
+                location.getLat() + "&lon=" + location.getLng() + "&page=1&rpp=1";
+    }
 
 
     public static List<String> save(String URL) throws IOException {//saves web page generated into a string array
