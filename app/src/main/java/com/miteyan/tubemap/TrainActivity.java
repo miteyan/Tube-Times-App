@@ -106,9 +106,4 @@ public class TrainActivity extends AppCompatActivity {
         @Override
         public void onProviderDisabled(String s) {}};
 
-    public void getNearestStations(View view) {
-
-    }
-
-
 }

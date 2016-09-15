@@ -4,6 +4,7 @@
 
     <string name="pause">Pause Location Updates</string>
     <string name="resume">Get nearest stations</string>
-    <string name="Nearest">Near me</string>
+    <string name="nearest">Stations Near me</string>
+    <string name="location">Get Location</string>
 
 </resources>

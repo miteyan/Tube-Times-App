@@ -2,6 +2,7 @@ package com.miteyan.tubemap;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,18 @@ public class CustomListAdapterTubes extends BaseAdapter {
         TextView platform = (TextView) vi.findViewById(R.id.tPlatform);
         platform.setText(current.getPlatform());
 
+        String tube = current.getTubeLine();
+
         TextView line = (TextView) vi.findViewById(R.id.tTube);
-        line.setText(current.getTubeLine());
+        if (tube.equals("metropolitan")) {
+            line.setTextColor(Color.rgb(94,13,58));
+        }
+
+
+        line.setText(tube);
+        System.out.println("LINE" +line.getText());
+
         return vi;
+
     }
 }
