@@ -2,7 +2,7 @@
 
 <a href="url"><img src="http://miteyan.com/img/Apps/train3.png" align="left" height="500" ></a>
 <a href="url"><img src="http://miteyan.com/img/Apps/train2.png" align="left" height="500" ></a>
-<a href="url"><img src="http://miteyan.com/img/Apps/train1.png" align="left" height="500" ></a>
+<a href="url"><img src="http://miteyan.com/img/Apps/train1.png" align="right" height="500" ></a>
 
 
 This is an Android app created to quickly get information about tubes and trains in London
