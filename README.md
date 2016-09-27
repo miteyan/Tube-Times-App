@@ -1,6 +1,6 @@
 # London Tube Times Android App
 
-<a href="url"><img src="http://miteyan.com/img/Apps/train3.png" align="left" height="48" width="48" ></a>
+<a href="url"><img src="http://miteyan.com/img/Apps/train3.png" align="left" height="200" ></a>
 
 
 This is an Android app created to quickly get information about tubes and trains in London
